@@ -1,0 +1,109 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('../assets/login.webp') no-repeat center/cover;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card container */
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem 2.5rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 1s ease forwards;
+}
+
+/* Title */
+.login-card h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #d97706;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Input fields */
+.login-card input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0.6rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.login-card input:focus {
+  border-color: #d97706;
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.5);
+}
+
+/* Submit button */
+.login-card button {
+  width: 100%;
+  padding: 0.95rem;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  border: none;
+  background: #d97706;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-card button:hover {
+  background: linear-gradient(90deg, #ffb347, #ffcc33);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 179, 71, 0.5);
+}
+
+/* Error message */
+.login-card p {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+/* Link to login page */
+.login-link {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.login-link a {
+  color: #d97706;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive for small screens */
+@media (max-width: 500px) {
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+}
