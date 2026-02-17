@@ -1,0 +1,32 @@
+body {
+  font-family: 'Arial', sans-serif;
+  padding: 2rem;
+  background: #f9f9f9;
+}
+
+h1, h2 {
+  color: #d97706;
+}
+
+form input, form textarea {
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 300px;
+}
+
+form button {
+  padding: 8px 15px;
+  background: #d97706;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.admin-item-card {
+  background: #fff;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}

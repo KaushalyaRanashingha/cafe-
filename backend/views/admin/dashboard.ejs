@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/dashboard.css">
+</head>
+
+<body>
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <h2>Espresso Admin</h2>
+    </div>
+
+    <nav>
+      <a href="/admin"
+         class="<%= activePage === 'dashboard' ? 'active' : '' %>">
+         Dashboard
+      </a>
+
+      <a href="/admin/items"
+         class="<%= activePage === 'items' ? 'active' : '' %>">
+         Items
+      </a>
+
+      <a href="/admin/users"
+         class="<%= activePage === 'users' ? 'active' : '' %>">
+         Users
+      </a>
+
+      <a href="/logout" class="logout">
+         Logout
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <header>
+      <h1>Dashboard Overview</h1>
+    </header>
+
+    <!-- Statistics Cards -->
+    <div class="cards">
+
+      <div class="card">
+        <h3>Total Items</h3>
+        <p><%= itemCount || 0 %></p>
+      </div>
+
+      <div class="card">
+        <h3>Total Users</h3>
+        <p><%= userCount || 0 %></p>
+      </div>
+
+    </div>
+
+    <!-- Recent Items -->
+    <section class="recent-section">
+      <h2>Recent Items</h2>
+
+      <% if (items && items.length > 0) { %>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Description</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% items.forEach(item => { %>
+              <tr>
+                <td><%= item.name %></td>
+                <td>$<%= item.price %></td>
+                <td><%= item.description %></td>
+                <td><%= new Date(item.createdAt).toLocaleDateString() %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+
+      <% } else { %>
+        <p>No items found.</p>
+      <% } %>
+
+    </section>
+
+  </main>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Item Admin</title>
+  <link rel="stylesheet" href="/itemadmin.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Item Management</h1>
+
+    <!-- Add / Edit Form -->
+    <form id="itemForm" enctype="multipart/form-data">
+      <input type="hidden" id="itemId">
+      <input type="text" id="name" placeholder="Name" required>
+      <input type="number" id="price" placeholder="Price" required>
+      <textarea id="description" placeholder="Description" required></textarea>
+      <input type="file" id="image">
+      <button type="submit" id="submitBtn">Add Item</button>
+      <button type="button" id="cancelBtn" style="display:none;">Cancel</button>
+    </form>
+
+    <h2>All Items</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th><th>Price</th><th>Description</th><th>Image</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="itemTableBody">
+        <% items.forEach(item => { %>
+        <tr data-id="<%= item._id %>">
+          <td><%= item.name %></td>
+          <td>Rs <%= item.price %></td>
+          <td><%= item.description %></td>
+          <td>
+            <% if (item.image) { %>
+              <img src="<%= item.image %>" width="80">
+            <% } %>
+          </td>
+          <td>
+            <button class="editBtn">Edit</button>
+            <button class="deleteBtn">Delete</button>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+<script>
+const form = document.getElementById("itemForm");
+const nameInput = document.getElementById("name");
+const priceInput = document.getElementById("price");
+const descInput = document.getElementById("description");
+const imageInput = document.getElementById("image");
+const itemIdInput = document.getElementById("itemId");
+const submitBtn = document.getElementById("submitBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const tableBody = document.getElementById("itemTableBody");
+
+// Add or Update Item
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const id = itemIdInput.value;
+  const formData = new FormData();
+  formData.append("name", nameInput.value);
+  formData.append("price", priceInput.value);
+  formData.append("description", descInput.value);
+  if (imageInput.files[0]) formData.append("image", imageInput.files[0]);
+
+  try {
+    let res;
+    if (id) {
+      res = await axios.put(`/items/admin/${id}`, formData);
+    } else {
+      res = await axios.post("/items/admin/add", formData);
+    }
+
+    if (res.data.success) {
+      loadItems();
+      form.reset();
+      itemIdInput.value = "";
+      submitBtn.textContent = "Add Item";
+      cancelBtn.style.display = "none";
+    }
+  } catch (err) {
+    alert(err.response?.data?.message || "Error");
+  }
+});
+
+// Cancel Edit
+cancelBtn.addEventListener("click", () => {
+  form.reset();
+  itemIdInput.value = "";
+  submitBtn.textContent = "Add Item";
+  cancelBtn.style.display = "none";
+});
+
+// Load items dynamically
+async function loadItems() {
+  const res = await axios.get("/items");
+  const items = res.data;
+  tableBody.innerHTML = "";
+  items.forEach(item => {
+    const tr = document.createElement("tr");
+    tr.setAttribute("data-id", item._id);
+    tr.innerHTML = `
+      <td>${item.name}</td>
+      <td>Rs ${item.price}</td>
+      <td>${item.description}</td>
+      <td>${item.image ? `<img src="${item.image}" width="80">` : ""}</td>
+      <td>
+        <button class="editBtn">Edit</button>
+        <button class="deleteBtn">Delete</button>
+      </td>
+    `;
+    tableBody.appendChild(tr);
+
+    // Edit
+    tr.querySelector(".editBtn").addEventListener("click", () => {
+      itemIdInput.value = item._id;
+      nameInput.value = item.name;
+      priceInput.value = item.price;
+      descInput.value = item.description;
+      submitBtn.textContent = "Update Item";
+      cancelBtn.style.display = "inline-block";
+    });
+
+    // Delete
+    tr.querySelector(".deleteBtn").addEventListener("click", async () => {
+      if (confirm("Are you sure?")) {
+        await axios.delete(`/items/admin/${item._id}`);
+        loadItems();
+      }
+    });
+  });
+}
+
+// Initial load
+loadItems();
+</script>
+
+</body>
+</html>
