@@ -7,7 +7,7 @@ const itemSchema = new mongoose.Schema({
   image: { type: String },
 }, { timestamps: true });
 
-// Check if model already exists before creating it
+
 const Item = mongoose.models.Item || mongoose.model("Item", itemSchema);
 
 export default Item;
