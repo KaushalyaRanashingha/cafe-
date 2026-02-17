@@ -1,5 +1,5 @@
 import express from "express";
-import Item from "../models/itemModel.js";
+import Item from "../models/Item.js";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
 router.get("/admin", async (req, res) => {
   try {
     const items = await Item.find().sort({ createdAt: -1 });
-    res.render("admin/itemAdmin", { items });
+    res.render("admin/item", { items });
   } catch (err) {
     res.status(500).send(err.message);
   }
